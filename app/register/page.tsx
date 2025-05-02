@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -27,11 +27,13 @@ export default function RegisterPage() {
       return;
     }
 
-    // Insert username into 'users' table
-    const { error: dbError } = await supabase.from("users").insert({
-      email,
-      username,
-    });
+    // ✅ Insert into users table
+    const { error: dbError } = await supabase.from("users").insert([
+      {
+        email,
+        username,
+      },
+    ]);
 
     if (dbError) {
       setError("Account created, but error saving username.");
