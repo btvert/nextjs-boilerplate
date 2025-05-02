@@ -1,19 +1,7 @@
-import { type Metadata } from "next";
 import UserGrid from "@/components/UserGrid";
 
-type Props = {
-  params: {
-    username: string;
-  };
-};
-
-export const metadata: Metadata = {
-  title: "User Board",
-  description: "User-generated content board.",
-};
-
-export default function UserPage({ params }: Props) {
-  const { username } = params;
+export default function UserPage({ params }: { params: { username: string } }) {
+  const username = params.username;
 
   return (
     <div className="h-screen grid place-items-center text-center px-6">
