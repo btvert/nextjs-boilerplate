@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import EditMenu from "./EditMenu";
 
 const generateGrid = () => {
   return Array.from({ length: 48 * 27 }, (_, i) => i + 1);
 };
 
-export default function UserGrid() {
+export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean }) {
   const [scale, setScale] = useState(1);
+  const [menuX, setMenuX] = useState(0);
+  const [menuY, setMenuY] = useState(0);
+  const [selectedTile, setSelectedTile] = useState<number | null>(null);
 
   useEffect(() => {
     const updateScale = () => {
@@ -27,6 +31,27 @@ export default function UserGrid() {
 
   const tiles = generateGrid();
 
+  const handleTileClick = (e: React.MouseEvent, tile: number) => {
+    if (!isEditMode) return;
+
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    setMenuX(rect.left + rect.width / 2);
+    setMenuY(rect.top);
+    setSelectedTile(tile);
+  };
+
+  const handleUpload = () => {
+    console.log("Upload clicked for tile", selectedTile);
+    // TODO: Add upload logic
+    setSelectedTile(null);
+  };
+
+  const handleRemove = () => {
+    console.log("Remove clicked for tile", selectedTile);
+    // TODO: Add remove logic
+    setSelectedTile(null);
+  };
+
   return (
     <div
       className="bg-black w-screen h-screen overflow-hidden flex items-center justify-center"
@@ -37,7 +62,8 @@ export default function UserGrid() {
           width: "1920px",
           height: "1080px",
           transform: `scale(${scale})`,
-          transformOrigin: "center center", // ✅ Centering key
+          transformOrigin: "center center",
+          position: "relative",
         }}
       >
         <div
@@ -52,6 +78,7 @@ export default function UserGrid() {
           {tiles.map((tile) => (
             <div
               key={tile}
+              onClick={(e) => handleTileClick(e, tile)}
               className="bg-neutral-900 hover:bg-neutral-700 transition-colors duration-150"
               style={{
                 width: "40px",
@@ -61,6 +88,15 @@ export default function UserGrid() {
           ))}
         </div>
       </div>
+
+      {isEditMode && selectedTile !== null && (
+        <EditMenu
+          x={menuX}
+          y={menuY}
+          onUpload={handleUpload}
+          onRemove={handleRemove}
+        />
+      )}
     </div>
   );
 }
