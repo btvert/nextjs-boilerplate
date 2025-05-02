@@ -6,13 +6,13 @@ export default function TopDropdown() {
 
   return (
     <div
-      onMouseLeave={() => setVisible(false)}
       className="fixed top-0 left-0 w-full z-50"
-      style={{ height: visible ? 80 : 0, transition: "height 0.3s ease" }}
+      onMouseLeave={() => setVisible(false)}
+      onMouseEnter={() => setVisible(true)}
     >
       {/* Dropdown bar */}
       <div
-        className="w-full bg-neutral-900 text-white flex items-center justify-center"
+        className="w-full bg-neutral-900 text-white flex items-center justify-between px-6"
         style={{
           height: 80,
           transform: visible ? "translateY(0)" : "translateY(-100%)",
@@ -26,12 +26,12 @@ export default function TopDropdown() {
         </div>
       </div>
 
-      {/* Hover tab (tiny SVG or square) */}
+      {/* Tiny tab — top-left in void area, ~50px down */}
       <div
-        className="absolute top-[78px] left-1/2 -translate-x-1/2 w-[25px] h-[25px] bg-white cursor-pointer rounded-t"
+        className="absolute left-[20px] top-[50px] w-[25px] h-[25px] bg-white rounded cursor-pointer"
         onMouseEnter={() => setVisible(true)}
       >
-        {/* Optionally: Replace with your SVG */}
+        {/* Replace this with your SVG later */}
       </div>
     </div>
   );
