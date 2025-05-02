@@ -6,13 +6,7 @@ import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase";
 import UserGrid from "@/components/UserGrid";
 
-type Props = {
-  params: {
-    username: string;
-  };
-};
-
-export default function UserPage({ params }: Props) {
+export default function UserPage({ params }) {
   const { username } = params;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +24,7 @@ export default function UserPage({ params }: Props) {
           .single();
 
         if (userRow?.username === username) {
-          setIsOwner(true); // they're logged into this exact board
+          setIsOwner(true);
         }
       }
 
