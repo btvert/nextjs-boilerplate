@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const generateGrid = () => {
-  return Array.from({ length: 48 * 24 }, (_, i) => i + 1);
+  return Array.from({ length: 48 * 27 }, (_, i) => i + 1);
 };
 
 export default function UserGrid() {
@@ -12,7 +12,7 @@ export default function UserGrid() {
   useEffect(() => {
     const updateScale = () => {
       const baseWidth = 1920;
-      const baseHeight = 960; // 24 rows × 40px
+      const baseHeight = 1080;
       const scaleFactor = Math.min(
         window.innerWidth / baseWidth,
         window.innerHeight / baseHeight
@@ -28,22 +28,25 @@ export default function UserGrid() {
   const tiles = generateGrid();
 
   return (
-    <div className="bg-black w-screen h-screen overflow-hidden flex items-center justify-center">
+    <div
+      className="bg-black w-screen h-screen overflow-hidden flex items-center justify-center"
+      style={{ position: "relative" }}
+    >
       <div
         style={{
           width: "1920px",
-          height: "960px",
+          height: "1080px",
           transform: `scale(${scale})`,
-          transformOrigin: "top left",
+          transformOrigin: "center center", // ✅ Centering key
         }}
       >
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(48, 40px)",
-            gridTemplateRows: "repeat(24, 40px)",
+            gridTemplateRows: "repeat(27, 40px)",
             width: "1920px",
-            height: "960px",
+            height: "1080px",
           }}
         >
           {tiles.map((tile) => (
