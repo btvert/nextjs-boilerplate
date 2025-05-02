@@ -1,32 +1,72 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import supabase from "@/lib/supabase";
+
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("username")
+      .eq("email", email)
+      .single();
+
+    if (userError || !userData?.username) {
+      setError("Login succeeded, but user data is missing.");
+      return;
+    }
+
+    router.push(`/${userData.username}`);
+  };
+
   return (
-    <div className="grid h-screen overflow-hidden ...">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <h1 className="text-3xl font-bold text-center sm:text-left">Welcome Back</h1>
-        <p className="text-sm text-center sm:text-left text-neutral-600 dark:text-neutral-400">
-          Log in to access your board.
-        </p>
-        <form className="flex flex-col gap-4 w-full sm:w-[300px]">
-          <input
-            type="text"
-            placeholder="Username"
-            className="px-4 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-white"
-            disabled
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="px-4 py-2 rounded border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-white"
-            disabled
-          />
-          <button
-            className="bg-black dark:bg-white text-white dark:text-black font-semibold px-4 py-2 rounded cursor-not-allowed"
-            disabled
-          >
-            Log In (Coming Soon)
-          </button>
-        </form>
-      </main>
+    <div className="grid place-items-center h-screen p-8 font-[family-name:var(--font-geist-sans)] bg-black text-white">
+      <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full sm:w-[300px]">
+        <h1 className="text-xl font-bold text-center mb-2">Login to Your Board</h1>
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="px-4 py-2 rounded bg-neutral-800 border border-neutral-700 text-white"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="px-4 py-2 rounded bg-neutral-800 border border-neutral-700 text-white"
+        />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        <button
+          type="submit"
+          className="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-neutral-200"
+        >
+          Log In
+        </button>
+      </form>
     </div>
   );
 }
