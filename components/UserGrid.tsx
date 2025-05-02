@@ -1,21 +1,43 @@
+import { useEffect, useRef, useState } from "react";
+
 const generateGrid = () => {
   return Array.from({ length: 48 * 27 }, (_, i) => i + 1);
 };
 
 export default function UserGrid() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const baseWidth = 1920;
+      const baseHeight = 1080;
+      const scaleFactor = Math.min(
+        window.innerWidth / baseWidth,
+        window.innerHeight / baseHeight
+      );
+      setScale(scaleFactor);
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   const tiles = generateGrid();
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-black flex items-center justify-center">
+    <div className="bg-black w-screen h-screen overflow-hidden">
       <div
+        ref={containerRef}
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(48, 1fr)",
-          gridTemplateRows: "repeat(27, 1fr)",
-          width: "1920px", // 48 * 40
-          height: "1080px", // 27 * 40
-          transform: "scale(calc(100vw / 1920))",
+          width: "1920px",
+          height: "1080px",
+          transform: `scale(${scale})`,
           transformOrigin: "top left",
+          display: "grid",
+          gridTemplateColumns: "repeat(48, 40px)",
+          gridTemplateRows: "repeat(27, 40px)",
         }}
       >
         {tiles.map((tile) => (
@@ -23,9 +45,8 @@ export default function UserGrid() {
             key={tile}
             style={{
               backgroundColor: "#1a1a1a",
-              border: "0px solid transparent",
-              width: "100%",
-              height: "100%",
+              width: "40px",
+              height: "40px",
             }}
           />
         ))}
