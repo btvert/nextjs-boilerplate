@@ -5,7 +5,7 @@ export default function PixelotsPage() {
     <div className="h-screen grid place-items-center text-center px-6">
       <main className="flex flex-col gap-8 items-center">
         <Image
-          src="/pixelots400.ico"
+          src="/pixelots400.svg"
           alt="Pixelots logo"
           width={80}
           height={80}
