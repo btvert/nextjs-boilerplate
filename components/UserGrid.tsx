@@ -43,8 +43,8 @@ export default function UserGrid() {
         {tiles.map((tile) => (
           <div
             key={tile}
+            className="bg-neutral-900 hover:bg-neutral-700 transition-colors duration-150"
             style={{
-              backgroundColor: "#1a1a1a",
               width: "40px",
               height: "40px",
             }}
