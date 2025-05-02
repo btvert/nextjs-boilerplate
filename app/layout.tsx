@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
 import "./globals.css";
 import TopDropdown from "@/components/TopDropdown";
 
@@ -26,8 +27,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative w-screen h-screen overflow-hidden`}
       >
+        {/* Background image */}
+        <Image
+          src="/THEBACKGROUND.png"
+          alt="Site Background"
+          fill
+          className="object-cover z-[-2]"
+          priority
+        />
+
+        {/* Light dark overlay (10% black) */}
+        <div className="fixed inset-0 bg-black/10 z-[-1]" />
+
+        {/* Dropdown + page content */}
         <TopDropdown />
         {children}
       </body>
