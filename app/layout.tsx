@@ -26,11 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`
-          ${geistSans.variable} ${geistMono.variable} antialiased 
-          w-screen h-screen overflow-hidden 
-          bg-[url('/THEBACKGROUND.png')] bg-cover bg-center
-        `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen overflow-hidden`}
+        style={{
+          backgroundImage: "url('/THEBACKGROUND.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <TopDropdown />
         {children}
