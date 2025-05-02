@@ -1,6 +1,12 @@
 import UserGrid from "@/components/UserGrid";
 
-export default function UserPage({ params }: { params: { username: string } }) {
+type PageProps = {
+  params: {
+    username: string;
+  };
+};
+
+export default function UserPage({ params }: PageProps) {
   const { username } = params;
 
   return (
