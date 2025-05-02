@@ -7,10 +7,9 @@ export default function TopDropdown() {
   return (
     <div
       className="fixed top-0 left-0 w-full z-50"
-      onMouseLeave={() => setVisible(false)}
       onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
     >
-      {/* Dropdown bar */}
       <div
         className="w-full bg-neutral-900 text-white flex items-center justify-between px-6"
         style={{
@@ -24,14 +23,6 @@ export default function TopDropdown() {
           <button className="px-4 py-2 bg-white text-black rounded">Login</button>
           <button className="px-4 py-2 bg-white text-black rounded">Logout</button>
         </div>
-      </div>
-
-      {/* Tiny tab — top-left in void area, ~50px down */}
-      <div
-        className="absolute left-[20px] top-[50px] w-[25px] h-[25px] bg-white rounded cursor-pointer"
-        onMouseEnter={() => setVisible(true)}
-      >
-        {/* Replace this with your SVG later */}
       </div>
     </div>
   );
