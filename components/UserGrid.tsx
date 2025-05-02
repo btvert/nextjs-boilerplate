@@ -36,19 +36,18 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
 
     const rect = (e.target as HTMLElement).getBoundingClientRect();
     setMenuX(rect.left + rect.width / 2);
-    setMenuY(rect.top);
+    setMenuY(rect.top + window.scrollY); // ensure scroll-safe
     setSelectedTile(tile);
+    console.log("Tile clicked:", tile);
   };
 
   const handleUpload = () => {
     console.log("Upload clicked for tile", selectedTile);
-    // TODO: Add upload logic
     setSelectedTile(null);
   };
 
   const handleRemove = () => {
     console.log("Remove clicked for tile", selectedTile);
-    // TODO: Add remove logic
     setSelectedTile(null);
   };
 
@@ -79,7 +78,7 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
             <div
               key={tile}
               onClick={(e) => handleTileClick(e, tile)}
-              className="bg-neutral-900 hover:bg-neutral-700 transition-colors duration-150"
+              className="bg-neutral-900 hover:bg-neutral-700 transition-colors duration-150 cursor-pointer"
               style={{
                 width: "40px",
                 height: "40px",
