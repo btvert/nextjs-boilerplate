@@ -40,11 +40,18 @@ export default function UserPage({ params }) {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-black">
+      {/* Username label in void area */}
+      <div className="absolute top-6 left-6 text-white text-xl font-semibold font-mono z-10">
+        /{username}
+      </div>
+
+      {/* Optional: show logged-in status if owner */}
       {isOwner && (
         <div className="absolute top-4 right-4 text-white text-sm">
           Logged in as <strong>{username}</strong>
         </div>
       )}
+
       <UserGrid />
     </div>
   );
