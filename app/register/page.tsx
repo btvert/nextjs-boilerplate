@@ -16,7 +16,6 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
 
-    // Create Supabase Auth account
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -27,7 +26,6 @@ export default function RegisterPage() {
       return;
     }
 
-    // ✅ Insert into users table
     const { error: dbError } = await supabase.from("users").insert([
       {
         email,
@@ -40,7 +38,6 @@ export default function RegisterPage() {
       return;
     }
 
-    // Redirect to the user's board
     router.push(`/${username}`);
   };
 
