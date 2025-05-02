@@ -1,12 +1,18 @@
+import { type Metadata } from "next";
 import UserGrid from "@/components/UserGrid";
 
-type PageProps = {
+type Props = {
   params: {
     username: string;
   };
 };
 
-export default function UserPage({ params }: PageProps) {
+export const metadata: Metadata = {
+  title: "User Board",
+  description: "User-generated content board.",
+};
+
+export default function UserPage({ params }: Props) {
   const { username } = params;
 
   return (
