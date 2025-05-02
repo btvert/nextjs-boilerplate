@@ -45,14 +45,15 @@ export default function UserPage({ params }) {
         /{username}
       </div>
 
-      {/* Optional: show logged-in status if owner */}
+      {/* Show user info if logged in as owner */}
       {isOwner && (
         <div className="absolute top-4 right-4 text-white text-sm">
           Logged in as <strong>{username}</strong>
         </div>
       )}
 
-      <UserGrid />
+      {/* Grid, with edit mode if this is your own board */}
+      <UserGrid isEditMode={isOwner} />
     </div>
   );
 }
