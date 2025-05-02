@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 type EditMenuProps = {
   x: number;
@@ -11,27 +10,24 @@ type EditMenuProps = {
 export default function EditMenu({ x, y, onUpload, onRemove }: EditMenuProps) {
   return (
     <div
-      className="fixed z-50 w-48 rounded-xl bg-neutral-900 shadow-xl border border-neutral-700"
+      className="fixed z-50 bg-white/90 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded shadow-md p-2 flex flex-col gap-1 transition-opacity duration-200"
       style={{
-        top: y,
-        left: x,
-        transform: "translate(-50%, 0)",
+        top: y + 10,
+        left: x + 10,
       }}
     >
-      <div className="flex flex-col py-2">
-        <button
-          onClick={onUpload}
-          className="flex justify-start px-4 py-2 text-sm hover:bg-neutral-800 text-white transition"
-        >
-          Upload
-        </button>
-        <button
-          onClick={onRemove}
-          className="flex justify-start px-4 py-2 text-sm hover:bg-neutral-800 text-red-400 transition"
-        >
-          Remove
-        </button>
-      </div>
+      <button
+        onClick={onUpload}
+        className="px-3 py-1 rounded bg-black text-white dark:bg-white dark:text-black text-sm hover:opacity-80"
+      >
+        Upload
+      </button>
+      <button
+        onClick={onRemove}
+        className="px-3 py-1 rounded bg-red-600 text-white text-sm hover:opacity-80"
+      >
+        Remove
+      </button>
     </div>
   );
 }
