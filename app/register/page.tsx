@@ -19,6 +19,9 @@ export default function RegisterPage() {
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { username }, // ✅ This stores it in user_metadata
+      },
     });
 
     if (signUpError || !data.user) {
@@ -26,22 +29,7 @@ export default function RegisterPage() {
       return;
     }
 
-    const userId = data.user.id;
-
-    const { error: dbError } = await supabase.from("users").insert([
-      {
-        id: userId,      // ✅ Required by your schema
-        email,
-        username,
-      },
-    ]);
-
-    if (dbError) {
-      console.error("Insert error:", dbError); // ✅ Log to debug unique or null constraint issues
-      setError("Account created, but error saving username.");
-      return;
-    }
-
+    // ✅ Redirect to the user’s board
     router.push(`/${username}`);
   };
 
