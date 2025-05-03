@@ -1,8 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import supabase from "@/lib/supabase";
 
 export default function TopDropdown() {
   const [visible, setVisible] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("username")
+          .eq("id", user.id)
+          .single();
+
+        if (!error && data?.username) {
+          setUsername(data.username);
+        }
+      }
+    };
+
+    fetchUsername();
+  }, []);
 
   return (
     <div
@@ -23,6 +47,12 @@ export default function TopDropdown() {
           <button className="px-4 py-2 bg-white text-black rounded">Login</button>
           <button className="px-4 py-2 bg-white text-black rounded">Logout</button>
         </div>
+
+        {username && visible && (
+          <div className="text-sm text-neutral-300">
+            Signed in as <span className="font-medium text-white">{username}</span>
+          </div>
+        )}
       </div>
     </div>
   );
