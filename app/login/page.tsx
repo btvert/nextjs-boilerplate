@@ -25,14 +25,16 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ Get username from your `users` table
+    const userId = data.user.id;
+
     const { data: userData, error: userError } = await supabase
       .from("users")
       .select("username")
-      .eq("id", data.user.id)
+      .eq("id", userId)
       .single();
 
     if (userError || !userData?.username) {
+      console.error("Failed to find user in 'users' table:", userError);
       setError("Login succeeded, but user data is missing.");
       return;
     }
