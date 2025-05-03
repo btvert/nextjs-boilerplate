@@ -8,6 +8,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -15,20 +16,21 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) {
+    if (signInError || !data.user) {
       setError("Invalid email or password.");
       return;
     }
 
+    // Get the logged-in user's stored username
     const { data: userData, error: userError } = await supabase
       .from("users")
       .select("username")
-      .eq("email", email)
+      .eq("id", data.user.id)
       .single();
 
     if (userError || !userData?.username) {
@@ -36,13 +38,27 @@ export default function LoginPage() {
       return;
     }
 
-    router.push(`/${userData.username}`);
+    if (userData.username !== username) {
+      setError("Username/email mismatch.");
+      await supabase.auth.signOut();
+      return;
+    }
+
+    router.push(`/${username}`);
   };
 
   return (
     <div className="grid place-items-center h-screen p-8 font-[family-name:var(--font-geist-sans)] bg-black text-white">
       <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full sm:w-[300px]">
         <h1 className="text-xl font-bold text-center mb-2">Login to Your Board</h1>
+        <input
+          type="text"
+          placeholder="Username"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="px-4 py-2 rounded bg-neutral-800 border border-neutral-700 text-white"
+        />
         <input
           type="email"
           placeholder="Email"
