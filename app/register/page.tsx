@@ -26,15 +26,18 @@ export default function RegisterPage() {
       return;
     }
 
+    const userId = data.user.id;
+
     const { error: dbError } = await supabase.from("users").insert([
       {
-        id: data.user.id, // ✅ Include user ID (required)
+        id: userId,      // ✅ Required by your schema
         email,
         username,
       },
     ]);
 
     if (dbError) {
+      console.error("Insert error:", dbError); // ✅ Log to debug unique or null constraint issues
       setError("Account created, but error saving username.");
       return;
     }
