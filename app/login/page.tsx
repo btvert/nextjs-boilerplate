@@ -15,31 +15,35 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (signInError || !data.user) {
+    if (signInError) {
       setError("Invalid email or password.");
       return;
     }
 
-    const userId = data.user.id;
+    // ✅ Get the user with full metadata (including username)
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-    const { data: userData, error: userError } = await supabase
-      .from("users")
-      .select("username")
-      .eq("id", userId)
-      .single();
-
-    if (userError || !userData?.username) {
-      console.error("Failed to find user in 'users' table:", userError);
-      setError("Login succeeded, but user data is missing.");
+    if (userError || !user) {
+      setError("Could not retrieve user data.");
       return;
     }
 
-    router.push(`/${userData.username}`);
+    const username = user.user_metadata?.username;
+
+    if (!username) {
+      setError("Login succeeded, but username is missing.");
+      return;
+    }
+
+    router.push(`/${username}`);
   };
 
   return (
