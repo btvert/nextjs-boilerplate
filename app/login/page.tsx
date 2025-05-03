@@ -26,14 +26,19 @@ export default function LoginPage() {
       return;
     }
 
-    const storedUsername = data.user.user_metadata?.username;
+    // ✅ Query your custom users table for the stored username
+    const { data: userData, error: userFetchError } = await supabase
+      .from("users")
+      .select("username")
+      .eq("id", data.user.id)
+      .single();
 
-    if (!storedUsername) {
+    if (userFetchError || !userData?.username) {
       setError("Login succeeded, but username is missing.");
       return;
     }
 
-    if (storedUsername !== username) {
+    if (userData.username !== username) {
       setError("Username/email mismatch.");
       await supabase.auth.signOut();
       return;
