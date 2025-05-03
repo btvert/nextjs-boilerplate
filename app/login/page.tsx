@@ -8,7 +8,6 @@ export default function LoginPage() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -26,39 +25,25 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ Query your custom users table for the stored username
-    const { data: userData, error: userFetchError } = await supabase
+    // ✅ Get username from your `users` table
+    const { data: userData, error: userError } = await supabase
       .from("users")
       .select("username")
       .eq("id", data.user.id)
       .single();
 
-    if (userFetchError || !userData?.username) {
-      setError("Login succeeded, but username is missing.");
+    if (userError || !userData?.username) {
+      setError("Login succeeded, but user data is missing.");
       return;
     }
 
-    if (userData.username !== username) {
-      setError("Username/email mismatch.");
-      await supabase.auth.signOut();
-      return;
-    }
-
-    router.push(`/${username}`);
+    router.push(`/${userData.username}`);
   };
 
   return (
     <div className="grid place-items-center h-screen p-8 font-[family-name:var(--font-geist-sans)] bg-black text-white">
       <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full sm:w-[300px]">
         <h1 className="text-xl font-bold text-center mb-2">Login to Your Board</h1>
-        <input
-          type="text"
-          placeholder="Username"
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="px-4 py-2 rounded bg-neutral-800 border border-neutral-700 text-white"
-        />
         <input
           type="email"
           placeholder="Email"
