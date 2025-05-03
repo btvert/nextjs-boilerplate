@@ -26,16 +26,16 @@ export default function RegisterPage() {
       return;
     }
 
-    const { error: insertError } = await supabase.from("users").insert([
+    const { error: dbError } = await supabase.from("users").insert([
       {
-        id: data.user.id,
-        username,
+        id: data.user.id, // ✅ Include user ID (required)
         email,
+        username,
       },
     ]);
 
-    if (insertError) {
-      setError("Account created, but failed to save username.");
+    if (dbError) {
+      setError("Account created, but error saving username.");
       return;
     }
 
