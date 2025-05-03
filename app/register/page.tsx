@@ -19,22 +19,26 @@ export default function RegisterPage() {
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { username },
-      },
     });
 
-    if (signUpError) {
-      setError(signUpError.message);
+    if (signUpError || !data.user) {
+      setError(signUpError?.message || "User registration failed.");
       return;
     }
 
-    if (!data.user) {
-      setError("User registration failed.");
+    const { error: insertError } = await supabase.from("users").insert([
+      {
+        id: data.user.id,
+        username,
+        email,
+      },
+    ]);
+
+    if (insertError) {
+      setError("Account created, but failed to save username.");
       return;
     }
 
-    // ✅ Success — redirect to /[username]
     router.push(`/${username}`);
   };
 
