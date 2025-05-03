@@ -10,25 +10,25 @@ export default function TopDropdown() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user) {
-        const { data, error } = await supabase
-          .from("users")
-          .select("username")
-          .eq("id", user.id)
-          .single();
+      if (!user) return;
 
-        if (!error && data?.username) {
-          setUsername(data.username);
-        }
+      const { data, error } = await supabase
+        .from("users")
+        .select("username")
+        .eq("id", user.id)
+        .single();
+
+      if (!error && data?.username) {
+        setUsername(data.username);
       }
     };
 
-    fetchUsername();
+    fetchUser();
   }, []);
 
   const handleLogout = async () => {
@@ -50,7 +50,6 @@ export default function TopDropdown() {
           transition: "transform 0.3s ease",
         }}
       >
-        {/* Left side buttons */}
         <div className="flex gap-4">
           <button
             onClick={() => router.push("/")}
@@ -72,7 +71,6 @@ export default function TopDropdown() {
           </button>
         </div>
 
-        {/* Right side */}
         {username && visible && (
           <div className="flex items-center gap-3">
             <div className="text-sm sm:text-base text-white">
