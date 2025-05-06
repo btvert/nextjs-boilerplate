@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase/supabase";
 import UserGrid from "@/components/UserGrid";
-import SidebarStats from "@/components/SidebarStats";
 import DiscussionThread from "@/components/DiscussionThread";
+import StatsSlideout from "@/components/StatsSlideout";
+import EditSlideout from "@/components/EditSlideout";
 
 export default function UserPage({ params }) {
   const { username } = params;
@@ -41,33 +42,26 @@ export default function UserPage({ params }) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-black">
-      {/* Left Sidebar */}
-      <aside className="w-[225px] bg-black text-white p-4 flex-shrink-0">
-        <div className="text-xl font-mono font-semibold mb-4">/{username}</div>
-        <SidebarStats username={username} />
-      </aside>
+    <div className="relative bg-black text-white">
+      {/* Fullscreen Grid */}
+      <div className="w-screen h-screen overflow-hidden">
+        <UserGrid isEditMode={isOwner} />
+      </div>
 
-      {/* Center Scrollable Area */}
-      <main className="flex-1 h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide relative">
-        <div className="min-h-screen py-6 w-full max-w-full flex justify-center items-start">
-          <div className="w-full">
-            {isOwner && (
-              <div className="text-sm text-right text-gray-400 mb-2 pr-4">
-                Logged in as <strong>{username}</strong>
-              </div>
-            )}
-
-            <UserGrid isEditMode={isOwner} />
-            <DiscussionThread boardOwner={username} />
-          </div>
+      {/* Invisible Hover Zones for Slideouts */}
+      <div className="absolute left-0 top-0 h-screen w-[20px] z-40">
+        <StatsSlideout username={username} />
+      </div>
+      {isOwner && (
+        <div className="absolute right-0 top-0 h-screen w-[20px] z-40">
+          <EditSlideout />
         </div>
-      </main>
+      )}
 
-      {/* Right Sidebar */}
-      <aside className="w-[225px] bg-black text-white p-4 flex-shrink-0">
-        <div className="text-center text-sm opacity-50">Edit Panel (Coming Soon)</div>
-      </aside>
+      {/* Discussion Thread Below */}
+      <div className="w-full bg-black">
+        <DiscussionThread boardOwner={username} />
+      </div>
     </div>
   );
 }
