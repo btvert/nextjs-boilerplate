@@ -43,14 +43,14 @@ export default function UserPage({ params }) {
   return (
     <div className="flex h-screen overflow-hidden bg-black">
       {/* Left Sidebar */}
-      <aside className="w-[300px] bg-black text-white p-4 flex-shrink-0">
+      <aside className="w-[225px] bg-black text-white p-4 flex-shrink-0">
         <div className="text-xl font-mono font-semibold mb-4">/{username}</div>
         <SidebarStats username={username} />
       </aside>
 
       {/* Center Scrollable Area */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="min-h-screen px-4 py-6">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="scrollbar-hide min-h-screen px-4 py-6">
           {isOwner && (
             <div className="text-sm text-right text-gray-400 mb-2">
               Logged in as <strong>{username}</strong>
@@ -63,7 +63,7 @@ export default function UserPage({ params }) {
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-[300px] bg-black text-white p-4 flex-shrink-0">
+      <aside className="w-[225px] bg-black text-white p-4 flex-shrink-0">
         <div className="text-center text-sm opacity-50">Edit Panel (Coming Soon)</div>
       </aside>
     </div>
