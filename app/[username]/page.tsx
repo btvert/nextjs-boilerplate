@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase/supabase";
 import UserGrid from "@/components/UserGrid";
-import DiscussionThread from "@/components/DiscussionThread";
 import StatsSlideout from "@/components/StatsSlideout";
 import EditSlideout from "@/components/EditSlideout";
 
@@ -42,13 +41,11 @@ export default function UserPage({ params }) {
   }
 
   return (
-    <div className="relative bg-black text-white">
+    <div className="relative h-screen w-screen overflow-hidden bg-black">
       {/* Fullscreen Grid */}
-      <div className="w-screen h-screen overflow-hidden">
-        <UserGrid isEditMode={isOwner} />
-      </div>
+      <UserGrid isEditMode={isOwner} />
 
-      {/* Invisible Hover Zones for Slideouts */}
+      {/* Slideout Panels */}
       <div className="absolute left-0 top-0 h-screen w-[20px] z-40">
         <StatsSlideout username={username} />
       </div>
@@ -57,11 +54,6 @@ export default function UserPage({ params }) {
           <EditSlideout />
         </div>
       )}
-
-      {/* Discussion Thread Below */}
-      <div className="w-full bg-black">
-        <DiscussionThread boardOwner={username} />
-      </div>
     </div>
   );
 }
