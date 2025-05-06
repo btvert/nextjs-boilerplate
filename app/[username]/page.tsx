@@ -7,7 +7,6 @@ import supabase from "@/lib/supabase/supabase";
 import UserGrid from "@/components/UserGrid";
 import StatsSlideout from "@/components/StatsSlideout";
 import EditSlideout from "@/components/EditSlideout";
-import DiscussionThread from "@/components/DiscussionThread";
 
 export default function UserPage({ params }) {
   const { username } = params;
@@ -42,18 +41,9 @@ export default function UserPage({ params }) {
   }
 
   return (
-    <div className="relative w-screen bg-black text-white overflow-x-hidden">
-      {/* Fullscreen Grid Section */}
-      <div className="w-screen h-screen overflow-hidden">
-        <UserGrid isEditMode={isOwner} />
-      </div>
-
-      {/* Discussion Thread (scrolls into view) */}
-      <div className="flex justify-center bg-black">
-        <div className="w-[1920px]">
-          <DiscussionThread boardOwner={username} />
-        </div>
-      </div>
+    <div className="relative h-screen w-screen overflow-hidden bg-black text-white">
+      {/* Fullscreen Grid */}
+      <UserGrid isEditMode={isOwner} />
 
       {/* Slideout Panels */}
       <div className="absolute left-0 top-0 h-screen w-[20px] z-40">
