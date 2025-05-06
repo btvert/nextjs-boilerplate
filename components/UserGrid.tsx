@@ -53,8 +53,8 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
 
   return (
     <div
-      className="bg-black w-screen h-screen overflow-hidden flex items-center justify-center"
-      style={{ position: "relative" }}
+      className="w-full max-w-full overflow-hidden flex items-center justify-center"
+      style={{ position: "relative", background: "black" }}
     >
       <div
         style={{
