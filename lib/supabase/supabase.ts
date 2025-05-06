@@ -1,4 +1,4 @@
-// lib/supabase.ts
+// lib/supabase/supabase.ts
 import { createBrowserClient } from "@supabase/ssr";
 
 const supabase = createBrowserClient(
