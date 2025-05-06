@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EditMenu from "./EditMenu";
 
 const generateGrid = () => {
   return Array.from({ length: 48 * 27 }, (_, i) => i + 1);
@@ -9,9 +8,6 @@ const generateGrid = () => {
 
 export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean }) {
   const [scale, setScale] = useState(1);
-  const [menuX, setMenuX] = useState(0);
-  const [menuY, setMenuY] = useState(0);
-  const [selectedTile, setSelectedTile] = useState<number | null>(null);
 
   useEffect(() => {
     const updateScale = () => {
@@ -30,26 +26,6 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
   }, []);
 
   const tiles = generateGrid();
-
-  const handleTileClick = (e: React.MouseEvent, tile: number) => {
-    if (!isEditMode) return;
-
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
-    setMenuX(rect.left + rect.width / 2);
-    setMenuY(rect.top + window.scrollY); // ensure scroll-safe
-    setSelectedTile(tile);
-    console.log("Tile clicked:", tile);
-  };
-
-  const handleUpload = () => {
-    console.log("Upload clicked for tile", selectedTile);
-    setSelectedTile(null);
-  };
-
-  const handleRemove = () => {
-    console.log("Remove clicked for tile", selectedTile);
-    setSelectedTile(null);
-  };
 
   return (
     <div
@@ -77,7 +53,6 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
           {tiles.map((tile) => (
             <div
               key={tile}
-              onClick={(e) => handleTileClick(e, tile)}
               className="bg-neutral-900 hover:bg-neutral-700 transition-colors duration-150 cursor-pointer"
               style={{
                 width: "40px",
@@ -87,15 +62,6 @@ export default function UserGrid({ isEditMode = false }: { isEditMode?: boolean 
           ))}
         </div>
       </div>
-
-      {isEditMode && selectedTile !== null && (
-        <EditMenu
-          x={menuX}
-          y={menuY}
-          onUpload={handleUpload}
-          onRemove={handleRemove}
-        />
-      )}
     </div>
   );
 }
