@@ -25,25 +25,27 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ Get the user with full metadata (including username)
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+    // ✅ Wait briefly for session to be saved in browser
+    setTimeout(async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-    if (userError || !user) {
-      setError("Could not retrieve user data.");
-      return;
-    }
+      if (userError || !user) {
+        setError("Could not retrieve user data.");
+        return;
+      }
 
-    const username = user.user_metadata?.username;
+      const username = user.user_metadata?.username;
 
-    if (!username) {
-      setError("Login succeeded, but username is missing.");
-      return;
-    }
+      if (!username) {
+        setError("Login succeeded, but username is missing.");
+        return;
+      }
 
-    router.push(`/${username}`);
+      router.push(`/${username}`);
+    }, 150); // short delay to ensure session persistence
   };
 
   return (
