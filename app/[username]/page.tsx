@@ -49,10 +49,10 @@ export default function UserPage({ params }) {
       </aside>
 
       {/* Center Scrollable Area */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="scrollbar-hide min-h-screen px-4 py-6">
+      <main className="flex-1 h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide">
+        <div className="min-h-screen py-6">
           {isOwner && (
-            <div className="text-sm text-right text-gray-400 mb-2">
+            <div className="text-sm text-right text-gray-400 mb-2 pr-4">
               Logged in as <strong>{username}</strong>
             </div>
           )}
