@@ -1,3 +1,5 @@
+import supabase from "./supabase";
+
 export async function getUserBadges(username: string) {
   const { data, error } = await supabase
     .from("user_badges")
