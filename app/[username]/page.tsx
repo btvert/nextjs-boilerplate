@@ -42,11 +42,13 @@ export default function UserPage({ params }) {
   }
 
   return (
-    <div className="relative w-screen overflow-x-hidden bg-black text-white">
-      {/* Fullscreen Grid */}
-      <UserGrid isEditMode={isOwner} />
+    <div className="relative w-screen bg-black text-white overflow-x-hidden">
+      {/* Fullscreen Grid Section */}
+      <div className="w-screen h-screen overflow-hidden">
+        <UserGrid isEditMode={isOwner} />
+      </div>
 
-      {/* Discussion Thread Below Grid */}
+      {/* Discussion Thread (scrolls into view) */}
       <div className="flex justify-center bg-black">
         <div className="w-[1920px]">
           <DiscussionThread boardOwner={username} />
