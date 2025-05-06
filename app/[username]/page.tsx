@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase/supabase";
 import UserGrid from "@/components/UserGrid";
+import SidebarStats from "@/components/SidebarStats";
+import DiscussionThread from "@/components/DiscussionThread";
 
 export default function UserPage({ params }) {
   const { username } = params;
@@ -39,21 +41,31 @@ export default function UserPage({ params }) {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-black">
-      {/* Username label in void area */}
-      <div className="absolute top-6 left-6 text-white text-xl font-semibold font-mono z-10">
-        /{username}
-      </div>
+    <div className="flex h-screen overflow-hidden bg-black">
+      {/* Left Sidebar */}
+      <aside className="w-[300px] bg-black text-white p-4 flex-shrink-0">
+        <div className="text-xl font-mono font-semibold mb-4">/{username}</div>
+        <SidebarStats username={username} />
+      </aside>
 
-      {/* Show user info if logged in as owner */}
-      {isOwner && (
-        <div className="absolute top-4 right-4 text-white text-sm">
-          Logged in as <strong>{username}</strong>
+      {/* Center Scrollable Area */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="min-h-screen px-4 py-6">
+          {isOwner && (
+            <div className="text-sm text-right text-gray-400 mb-2">
+              Logged in as <strong>{username}</strong>
+            </div>
+          )}
+
+          <UserGrid isEditMode={isOwner} />
+          <DiscussionThread boardOwner={username} />
         </div>
-      )}
+      </main>
 
-      {/* Grid, with edit mode if this is your own board */}
-      <UserGrid isEditMode={isOwner} />
+      {/* Right Sidebar */}
+      <aside className="w-[300px] bg-black text-white p-4 flex-shrink-0">
+        <div className="text-center text-sm opacity-50">Edit Panel (Coming Soon)</div>
+      </aside>
     </div>
   );
 }
