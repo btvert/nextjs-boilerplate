@@ -1,3 +1,5 @@
+import supabase from "./supabase";
+
 export async function uploadGridImage(file: File, username: string, cellIndex: number) {
   const filePath = `${username}/${cellIndex}_${Date.now()}`;
 
