@@ -49,16 +49,18 @@ export default function UserPage({ params }) {
       </aside>
 
       {/* Center Scrollable Area */}
-      <main className="flex-1 h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide">
-        <div className="min-h-screen py-6 w-full max-w-full">
-          {isOwner && (
-            <div className="text-sm text-right text-gray-400 mb-2 pr-4">
-              Logged in as <strong>{username}</strong>
-            </div>
-          )}
+      <main className="flex-1 h-screen overflow-y-scroll overflow-x-hidden scrollbar-hide relative">
+        <div className="min-h-screen py-6 w-full max-w-full flex justify-center items-start">
+          <div className="w-full">
+            {isOwner && (
+              <div className="text-sm text-right text-gray-400 mb-2 pr-4">
+                Logged in as <strong>{username}</strong>
+              </div>
+            )}
 
-          <UserGrid isEditMode={isOwner} />
-          <DiscussionThread boardOwner={username} />
+            <UserGrid isEditMode={isOwner} />
+            <DiscussionThread boardOwner={username} />
+          </div>
         </div>
       </main>
 
