@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import supabase from "@/lib/supabase";
+import supabase from "@/lib/supabase/supabase";
 import UserGrid from "@/components/UserGrid";
 
 export default function UserPage({ params }) {
