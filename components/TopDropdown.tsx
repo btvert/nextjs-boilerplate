@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import supabase from "@/lib/supabase";
+import supabase from "@/lib/supabase/supabase";
 
 export default function TopDropdown() {
   const [visible, setVisible] = useState(false);
